@@ -1,4 +1,4 @@
-package lk.code.limpiar.application.handlers;
+package lk.code.limpiar.application.controllers;
 
 
 import lk.code.limpiar.application.transformer.ResponseEntityTransformer;
@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.ServerRequest;
-import org.springframework.web.servlet.function.ServerResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +20,7 @@ import java.util.Optional;
 
 @RestController
 @Slf4j // logger (generates a class property of name `log`)
-public class MovieHandler {
+public class MovieController {
 
   @Autowired
   private RequestEntityValidator validator;
@@ -69,6 +67,7 @@ public class MovieHandler {
 
 /**
  *  Handle get rating of a movie.
+ *
  * @param id
  * @return
  */
@@ -79,7 +78,7 @@ public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
     Movie movie = new Movie();
     movie.setId(id);
 	
-	  Optional<Double> rating = this.movieService.getRating(movie);
+	  Optional<Double> rating = Optional.of(this.movieService.getRating(movie));
 
 //    Mono<Map> trMovie = this.transformer.transform(movie, new MovieTransformer());
 
@@ -88,6 +87,7 @@ public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
 
 /**
  * Handle creating a new movie entry
+ *
  * @param request
  * @return
  */
@@ -111,6 +111,7 @@ public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
 
 /**
  * Handle updating of an existing movie
+ *
  * @param id
  * @param request
  * @return
