@@ -7,17 +7,18 @@ import lk.code.limpiar.domain.entities.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MovieService {
 
-  @Autowired
-  private MovieRepositoryInterface movieRepository;
-
-  @Autowired
-  private IMDBClientInterface imdbClient;
+//  @Autowired
+//  private MovieRepositoryInterface movieRepository;
+//
+//  @Autowired
+//  private IMDBClientInterface imdbClient;
 
   /**
    * Get a Flux of Movies
@@ -25,7 +26,9 @@ public class MovieService {
    */
   public List<Movie> getAllMovies() {
 
-    return this.movieRepository.findAll();
+//    return this.movieRepository.findAll();
+
+    return new ArrayList<Movie>();
   }
 
   /**
@@ -35,7 +38,10 @@ public class MovieService {
    * @return Mono<Movie>
    */
   public Optional<Movie> getMovieById(String id) {
-    return this.movieRepository.findById(id);
+
+//    return this.movieRepository.findById(id);
+
+    return Optional.empty();
   }
 
   /**
@@ -45,9 +51,10 @@ public class MovieService {
    */
   public String addMovie(Movie movie) {
 
-    Movie newMovie = this.movieRepository.save(movie);
+//    Movie newMovie = this.movieRepository.save(movie);
 
-    return newMovie.getId();
+//    return newMovie.getId();
+    return "";
   }
 
   /**
@@ -58,7 +65,9 @@ public class MovieService {
    */
   public Double getRating(Movie movie) {
 
-    return this.imdbClient.getRating(movie);
+//    return this.imdbClient.getRating(movie);
+
+    return 10.0;
   }
 
   /**
@@ -68,17 +77,17 @@ public class MovieService {
    */
   public Optional<Void> edit(Movie movie) {
 
-    Movie editedBanner = this.movieRepository.save(movie);
+//    Movie editedBanner = this.movieRepository.save(movie);
 
     return Optional.empty();
   }
 
-/**
- * Delete Movie
- * @param id
- */
-public void delete(String id) {
-	
-	 this.movieRepository.deleteById(id);
-}
+  /**
+   * Delete Movie
+   * @param id
+   */
+  public void delete(String id) {
+
+  //	 this.movieRepository.deleteById(id);
+  }
 }
