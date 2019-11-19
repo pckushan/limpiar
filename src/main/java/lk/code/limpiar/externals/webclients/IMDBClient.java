@@ -16,7 +16,7 @@ public class IMDBClient implements IMDBClientInterface {
 //  private MeterRegistry meterRegistry;
 
 @Override
-public Double getRating(Movie movie) {
+public double getRating(Movie movie) {
 //    //register metrics
 //    Timer timer = this.meterRegistry.timer("imdb.request.time", "title", movie.getId());
 //    long start = System.currentTimeMillis();

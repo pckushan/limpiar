@@ -4,5 +4,5 @@ import lk.code.limpiar.domain.entities.Movie;
 
 public interface IMDBClientInterface {
 
-  public Double getRating(Movie movie);
+  public double getRating(Movie movie);
 }

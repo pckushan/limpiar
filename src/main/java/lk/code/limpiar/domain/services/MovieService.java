@@ -63,7 +63,7 @@ public class MovieService {
    * @param movie movie
    * @return Mono<Double>
    */
-  public Double getRating(Movie movie) {
+  public double getRating(Movie movie) {
 
 //    return this.imdbClient.getRating(movie);
 
