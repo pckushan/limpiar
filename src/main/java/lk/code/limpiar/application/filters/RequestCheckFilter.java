@@ -1,6 +1,5 @@
 package lk.code.limpiar.application.filters;
 
-import lk.code.limpiar.application.exception.types.FilterException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +15,7 @@ import java.util.List;
 public class RequestCheckFilter implements Filter {
 	
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-					throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
 		final String[] ignoredRoutes = new String[]{
 				"/actuator/prometheus"

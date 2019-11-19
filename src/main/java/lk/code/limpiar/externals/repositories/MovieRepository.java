@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, String> {
 
-/**
- * Get Movie by title
- * @param title
- * @return
- */
-List<Movie> findByTitle(String title);
+  /**
+   * Get Movie by title
+   * @param title
+   * @return
+   */
+  List<Movie> findByTitle(String title);
 }

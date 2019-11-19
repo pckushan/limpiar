@@ -46,7 +46,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
   private Map<String, Object> handleRecoverableException(BaseException error,
       boolean includeStackTrace) {
 
-    Map<String, Object> errorDetails = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorDetails = new LinkedHashMap<>();
 
     errorDetails.put("code", error.getCode() != null ? error.getCode() : "");
     errorDetails.put("type", error.getClass().getSimpleName());
@@ -67,7 +67,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
    */
   private Map<String, Object> handleValidationException(ValidationException error) {
 
-    Map<String, Object> errorDetails = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorDetails = new LinkedHashMap<>();
 
     errorDetails.put("type", error.getClass().getSimpleName());
     errorDetails.put("errors", this.formatValidationErrors(error.getErrors()));
@@ -84,7 +84,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
    */
   private Map<String, Object> handleGenericException(Throwable error, boolean includeStackTrace) {
 
-    Map<String, Object> errorDetails = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorDetails = new LinkedHashMap<>();
 
     errorDetails.put("code", "");
     errorDetails.put("type", error.getClass().getSimpleName());
@@ -120,7 +120,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
    */
   private Map<String, ArrayList<String>> formatValidationErrors(Set<ConstraintViolation<RequestEntityInterface>> errors) {
 
-    Map<String, ArrayList<String>> errDetails = new LinkedHashMap<String, ArrayList<String>>();
+    Map<String, ArrayList<String>> errDetails = new LinkedHashMap<>();
 
     errors.forEach(error -> {
 
@@ -139,7 +139,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
       }
 
       // when there are no validation errors for the field
-      ArrayList<String> arr = new ArrayList<String>();
+      ArrayList<String> arr = new ArrayList<>();
       arr.add(val);
 
       errDetails.put(key, arr);

@@ -1,9 +1,8 @@
 package lk.code.limpiar.domain.services;
 
-
 import lk.code.limpiar.domain.boundary.repositories.MovieRepositoryInterface;
-import lk.code.limpiar.domain.boundary.webclients.IMDBClientInterface;
 import lk.code.limpiar.domain.entities.Movie;
+import lk.code.limpiar.domain.types.DomainException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +13,8 @@ import java.util.Optional;
 @Service
 public class MovieService {
 
-//  @Autowired
-//  private MovieRepositoryInterface movieRepository;
+  @Autowired
+  private MovieRepositoryInterface movieRepository;
 //
 //  @Autowired
 //  private IMDBClientInterface imdbClient;
@@ -37,11 +36,13 @@ public class MovieService {
    * @param id Movie id
    * @return Mono<Movie>
    */
-  public Optional<Movie> getMovieById(String id) {
+  public Optional<Movie> getMovieById(String id) throws DomainException {
 
 //    return this.movieRepository.findById(id);
 
-    return Optional.empty();
+    throw new DomainException("Error", "100");
+
+//    return Optional.empty();
   }
 
   /**
