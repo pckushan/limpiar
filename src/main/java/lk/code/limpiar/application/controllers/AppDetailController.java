@@ -15,7 +15,7 @@ public class AppDetailController {
    * @param request ServerRequest
    * @return ServerResponse
    */
-  @GetMapping("/get/details")
+  @GetMapping("/")
   public ResponseEntity<Object> details(RequestEntity request) {
 
     AppDetailTransformer appDetailTransformer = new AppDetailTransformer(
