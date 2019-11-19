@@ -1,12 +1,12 @@
 package lk.code.limpiar.domain.services;
 
-
 import lk.code.limpiar.domain.boundary.repositories.MovieRepositoryInterface;
-import lk.code.limpiar.domain.boundary.webclients.IMDBClientInterface;
 import lk.code.limpiar.domain.entities.Movie;
+import lk.code.limpiar.domain.types.DomainException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +15,9 @@ public class MovieService {
 
   @Autowired
   private MovieRepositoryInterface movieRepository;
-
-  @Autowired
-  private IMDBClientInterface imdbClient;
+//
+//  @Autowired
+//  private IMDBClientInterface imdbClient;
 
   /**
    * Get a Flux of Movies
@@ -25,7 +25,9 @@ public class MovieService {
    */
   public List<Movie> getAllMovies() {
 
-    return this.movieRepository.findAll();
+//    return this.movieRepository.findAll();
+
+    return new ArrayList<Movie>();
   }
 
   /**
@@ -34,8 +36,13 @@ public class MovieService {
    * @param id Movie id
    * @return Mono<Movie>
    */
-  public Optional<Movie> getMovieById(String id) {
-    return this.movieRepository.findById(id);
+  public Optional<Movie> getMovieById(String id) throws DomainException {
+
+//    return this.movieRepository.findById(id);
+
+    throw new DomainException("Error", "100");
+
+//    return Optional.empty();
   }
 
   /**
@@ -45,9 +52,10 @@ public class MovieService {
    */
   public String addMovie(Movie movie) {
 
-    Movie newMovie = this.movieRepository.save(movie);
+//    Movie newMovie = this.movieRepository.save(movie);
 
-    return newMovie.getId();
+//    return newMovie.getId();
+    return "";
   }
 
   /**
@@ -58,7 +66,9 @@ public class MovieService {
    */
   public double getRating(Movie movie) {
 
-    return this.imdbClient.getRating(movie);
+//    return this.imdbClient.getRating(movie);
+
+    return 10.0;
   }
 
   /**
@@ -68,17 +78,17 @@ public class MovieService {
    */
   public Optional<Void> edit(Movie movie) {
 
-    Movie editedBanner = this.movieRepository.save(movie);
+//    Movie editedBanner = this.movieRepository.save(movie);
 
     return Optional.empty();
   }
 
-/**
- * Delete Movie
- * @param id
- */
-public void delete(String id) {
-	
-	 this.movieRepository.deleteById(id);
-}
+  /**
+   * Delete Movie
+   * @param id
+   */
+  public void delete(String id) {
+
+  //	 this.movieRepository.deleteById(id);
+  }
 }

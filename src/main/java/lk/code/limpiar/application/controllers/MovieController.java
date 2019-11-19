@@ -1,6 +1,7 @@
 package lk.code.limpiar.application.controllers;
 
 
+import lk.code.limpiar.application.exception.types.HandlerException;
 import lk.code.limpiar.application.transformer.ResponseEntityTransformer;
 import lk.code.limpiar.application.transport.request.entities.MovieRequestEntity;
 import lk.code.limpiar.application.transport.response.transformers.MovieTransformer;
@@ -37,7 +38,7 @@ public class MovieController {
    * @param request ServerRequest
    * @return ServerResponse
    */
-  @GetMapping("/get/movies")
+  @GetMapping("/movies")
   public ResponseEntity<List<Map>> get(RequestEntity request) {
 
     List<Movie> movies = this.movieService.getAllMovies();
@@ -49,14 +50,14 @@ public class MovieController {
     return ResponseEntity.ok().body(trMovies);
   }
 
-/**
- * Handle get movie by id
- *
- * @param id
- * @return
- */
-@GetMapping("")
-  public ResponseEntity<Optional<Map>> getById(@RequestParam String id) {
+  /**
+   * Handle get movie by id
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("/movies/{id}")
+  public ResponseEntity<?> getById(@PathVariable String id) throws Exception, RuntimeException {
 
     Optional<Movie> movie = this.movieService.getMovieById(id);
 
@@ -65,14 +66,14 @@ public class MovieController {
     return ResponseEntity.ok().body(trMovie);
   }
 
-/**
- *  Handle get rating of a movie.
- *
- * @param id
- * @return
- */
-@GetMapping("get/rating")
-public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
+  /**
+   *  Handle get rating of a movie.
+   *
+   * @param id
+   * @return
+   */
+  @GetMapping("/movies/{id}/rating")
+  public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
 
     // map
     Movie movie = new Movie();
@@ -85,13 +86,13 @@ public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
 	  return ResponseEntity.ok().body(rating);
   }
 
-/**
- * Handle creating a new movie entry
- *
- * @param request
- * @return
- */
-@PostMapping("add/movie")
+  /**
+   * Handle creating a new movie entry
+   *
+   * @param request
+   * @return
+   */
+  @PostMapping("/movies")
   public ResponseEntity<Optional<Map>> getRating(@RequestBody MovieRequestEntity request) {
   	
       // validate
@@ -109,14 +110,15 @@ public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
     return ResponseEntity.ok().body(trMovieId);
   }
 
-/**
- * Handle updating of an existing movie
- *
- * @param id
- * @param request
- * @return
- */
-public ResponseEntity<Movie> edit(@RequestParam String id ,@RequestBody MovieRequestEntity request) {
+  /**
+   * Handle updating of an existing movie
+   *
+   * @param id
+   * @param request
+   * @return
+   */
+  @PutMapping("/movies/{id}")
+  public ResponseEntity<Movie> edit(@RequestParam String id ,@RequestBody MovieRequestEntity request) {
   	
           // validate
           this.validator.validate(request);
@@ -132,16 +134,17 @@ public ResponseEntity<Movie> edit(@RequestParam String id ,@RequestBody MovieReq
     return ResponseEntity.noContent().build();
   }
 
-/**
- * Handle deletion of an existing movie
- *
- * @param id
- * @return
- */
-public ResponseEntity<Movie> delete(@RequestParam String id) {
-	
-  	this.movieService.delete(id);
+  /**
+   * Handle deletion of an existing movie
+   *
+   * @param id
+   * @return
+   */
+  @DeleteMapping("/movies/{id}")
+  public ResponseEntity<Movie> delete(@RequestParam String id) {
 
-    return  ResponseEntity.noContent().build();
+      this.movieService.delete(id);
+
+      return  ResponseEntity.noContent().build();
   }
 }

@@ -1,5 +1,6 @@
 package lk.code.limpiar.application.exception;
 
+import lk.code.limpiar.application.exception.types.BaseException;
 import lk.code.limpiar.application.exception.types.ValidationException;
 import lk.code.limpiar.application.validator.RequestEntityInterface;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
@@ -17,21 +18,24 @@ import java.util.Set;
 @Component
 public class CustomErrorAttributes extends DefaultErrorAttributes {
 
-@Override
-public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
-	Throwable error = getError(webRequest);
-	
-	switch (error.getClass().getSimpleName()) {
+  @Override
+  public Map<String, Object> getErrorAttributes(WebRequest request, boolean includeStackTrace) {
+
+    // get the error from request
+    Throwable error = getError(request);
+
+    switch (error.getClass().getSimpleName()) {
       case "ValidationException":
         return handleValidationException((ValidationException)error);
+      case "HandlerException":
       case "FilterException":
       case "DomainException":
       case "WebClientException":
-        return handleRecoverableException(error, includeStackTrace);
+        return handleRecoverableException((BaseException)error, includeStackTrace);
       default:
         return handleGenericException(error, includeStackTrace);
     }
-}
+  }
 
   /**
    * Handle recoverable exceptions
@@ -39,12 +43,12 @@ public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean inc
    * @param error exception
    * @return error description
    */
-  private Map<String, Object> handleRecoverableException(Throwable error,
+  private Map<String, Object> handleRecoverableException(BaseException error,
       boolean includeStackTrace) {
 
-    Map<String, Object> errorDetails = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorDetails = new LinkedHashMap<>();
 
-    errorDetails.put("code", "");
+    errorDetails.put("code", error.getCode() != null ? error.getCode() : "");
     errorDetails.put("type", error.getClass().getSimpleName());
     errorDetails.put("message", error.getMessage());
 
@@ -63,7 +67,7 @@ public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean inc
    */
   private Map<String, Object> handleValidationException(ValidationException error) {
 
-    Map<String, Object> errorDetails = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorDetails = new LinkedHashMap<>();
 
     errorDetails.put("type", error.getClass().getSimpleName());
     errorDetails.put("errors", this.formatValidationErrors(error.getErrors()));
@@ -80,7 +84,7 @@ public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean inc
    */
   private Map<String, Object> handleGenericException(Throwable error, boolean includeStackTrace) {
 
-    Map<String, Object> errorDetails = new LinkedHashMap<String, Object>();
+    Map<String, Object> errorDetails = new LinkedHashMap<>();
 
     errorDetails.put("code", "");
     errorDetails.put("type", error.getClass().getSimpleName());
@@ -116,7 +120,7 @@ public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean inc
    */
   private Map<String, ArrayList<String>> formatValidationErrors(Set<ConstraintViolation<RequestEntityInterface>> errors) {
 
-    Map<String, ArrayList<String>> errDetails = new LinkedHashMap<String, ArrayList<String>>();
+    Map<String, ArrayList<String>> errDetails = new LinkedHashMap<>();
 
     errors.forEach(error -> {
 
@@ -135,7 +139,7 @@ public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean inc
       }
 
       // when there are no validation errors for the field
-      ArrayList<String> arr = new ArrayList<String>();
+      ArrayList<String> arr = new ArrayList<>();
       arr.add(val);
 
       errDetails.put(key, arr);
