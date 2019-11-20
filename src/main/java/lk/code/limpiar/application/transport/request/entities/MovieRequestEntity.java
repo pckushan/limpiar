@@ -12,4 +12,7 @@ public class MovieRequestEntity implements RequestEntityInterface {
     @NotEmpty
     @Size(min = 4, max = 7)
     private String title;
+
+    @NotEmpty
+    private String id;
 }

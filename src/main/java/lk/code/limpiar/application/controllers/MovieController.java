@@ -1,7 +1,5 @@
 package lk.code.limpiar.application.controllers;
 
-
-import lk.code.limpiar.application.exception.types.HandlerException;
 import lk.code.limpiar.application.transformer.ResponseEntityTransformer;
 import lk.code.limpiar.application.transport.request.entities.MovieRequestEntity;
 import lk.code.limpiar.application.transport.response.transformers.MovieTransformer;
@@ -39,7 +37,7 @@ public class MovieController {
    * @return ServerResponse
    */
   @GetMapping("/movies")
-  public ResponseEntity<List<Map>> get(RequestEntity request) {
+  public ResponseEntity<List<Map>> get(RequestEntity request) throws Exception, RuntimeException  {
 
     List<Movie> movies = this.movieService.getAllMovies();
 
@@ -73,7 +71,7 @@ public class MovieController {
    * @return
    */
   @GetMapping("/movies/{id}/rating")
-  public ResponseEntity<Optional<Double>> getRating(@RequestParam String id) {
+  public ResponseEntity<Optional<Double>> getRating(@PathVariable String id) throws Exception, RuntimeException  {
 
     // map
     Movie movie = new Movie();
@@ -93,7 +91,7 @@ public class MovieController {
    * @return
    */
   @PostMapping("/movies")
-  public ResponseEntity<Optional<Map>> getRating(@RequestBody MovieRequestEntity request) {
+  public ResponseEntity<?> addMovie(@RequestBody MovieRequestEntity request) throws Exception, RuntimeException  {
   	
       // validate
       this.validator.validate(request);
@@ -101,11 +99,11 @@ public class MovieController {
       // map
       Movie movie = new Movie();
       movie.setTitle(request.getTitle());
+      movie.setId(request.getId());
 
-	  Optional<String> movieId = Optional.ofNullable(this.movieService.addMovie(movie));
-        
+	  String movieId = this.movieService.addMovie(movie).getId();
 
-        Optional<Map> trMovieId = transformer.transform(movieId, new ResourceIdentifierTransformer());
+        Optional<?> trMovieId = transformer.transform(Optional.ofNullable(movieId), new ResourceIdentifierTransformer());
 
     return ResponseEntity.ok().body(trMovieId);
   }
@@ -118,7 +116,7 @@ public class MovieController {
    * @return
    */
   @PutMapping("/movies/{id}")
-  public ResponseEntity<Movie> edit(@RequestParam String id ,@RequestBody MovieRequestEntity request) {
+  public ResponseEntity<String> edit(@PathVariable String id , @RequestBody MovieRequestEntity request) throws Exception, RuntimeException {
   	
           // validate
           this.validator.validate(request);
@@ -127,11 +125,10 @@ public class MovieController {
           Movie movie = new Movie();
           movie.setId(id);
           movie.setTitle(request.getTitle());
-	
-	  Optional<Void> movieId = this.movieService.edit(movie);
-    
 
-    return ResponseEntity.noContent().build();
+    String updatedId = this.movieService.edit(movie);
+    return ResponseEntity.ok().body(updatedId);
+
   }
 
   /**
@@ -141,7 +138,7 @@ public class MovieController {
    * @return
    */
   @DeleteMapping("/movies/{id}")
-  public ResponseEntity<Movie> delete(@RequestParam String id) {
+  public ResponseEntity<Movie> delete(@PathVariable String id) throws Exception, RuntimeException{
 
       this.movieService.delete(id);
 
