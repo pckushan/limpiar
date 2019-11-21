@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppDetailController {
 
   /**
-   * Handle get API details
-   *
-   * @param request ServerRequest
-   * @return ServerResponse
+   * Control get API details
+   * @param request Request
+   * @return Response
    */
   @GetMapping("/")
   public ResponseEntity<Object> details(RequestEntity request) {

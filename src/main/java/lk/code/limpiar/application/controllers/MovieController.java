@@ -111,8 +111,8 @@ public class MovieController {
   /**
    * Handle updating of an existing movie
    *
-   * @param id
-   * @param request
+   * @param id Id
+   * @param request Request
    * @return
    */
   @PutMapping("/movies/{id}")
