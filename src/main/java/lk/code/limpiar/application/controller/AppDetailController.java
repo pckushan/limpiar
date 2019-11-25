@@ -1,4 +1,4 @@
-package lk.code.limpiar.application.controllers;
+package lk.code.limpiar.application.controller;
 
 import lk.code.limpiar.application.transport.response.transformers.AppDetailTransformer;
 import org.springframework.http.RequestEntity;
