@@ -1,4 +1,4 @@
-package lk.code.limpiar.application.controllers;
+package lk.code.limpiar.application.controller;
 
 import lk.code.limpiar.application.transformer.ResponseEntityTransformer;
 import lk.code.limpiar.application.transport.request.entities.MovieRequestEntity;
